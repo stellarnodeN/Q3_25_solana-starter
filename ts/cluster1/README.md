@@ -1,7 +1,31 @@
 # Q3_25_solana-starter
 
-This project demonstrates how to create and manage Solana SPL tokens and NFT metadata using the Metaplex Token Metadata program and the UMI SDK. The code is written in TypeScript and interacts with the Solana Devnet.
+This project demonstrates how to create and manage Solana SPL tokens and NFT metadata using the Metaplex Token Metadata program and the UMI SDK. The code is written in TypeScript and interacts with the Solana Devnet. It covers all the essential flows for minting tokens, uploading metadata, and handling NFTs using decentralized storage with Irys and Pinata.
 
+---
+
+## Table of Contents
+
+- [File Structure](#file-structure)
+- [Overview](#overview)
+  - [SPL Token Scripts](#spl-token-scripts)
+  - [NFT Scripts](#nft-scripts)
+  - [How Irys and Pinata Work](#how-irys-and-pinata-work)
+- [How It Works](#how-it-works)
+  - [Wallet and UMI Setup](#1-wallet-and-umi-setup)
+  - [Mint Address](#2-mint-address)
+  - [Creating NFT Metadata](#3-creating-nft-metadata)
+  - [IPFS, Pinata, and Gateway](#4-ipfs-pinata-and-gateway)
+- [Architecture](#architecture-how-spl-tokens-and-nfts-are-minted)
+  - [SPL Token Minting Flow](#spl-token-minting-flow)
+  - [NFT Minting Flow](#nft-minting-flow)
+  - [Metadata Account Creation (Metaplex)](#metadata-account-creation-metaplex)
+- [How to Use](#how-to-use)
+- [License](#license)
+- [Notes](#notes)
+- [References](#references)
+
+---
 
 ## File Structure
 
@@ -18,10 +42,14 @@ ts/
     ...
 ```
 
-### SPL Token Overview
+---
+
+## Overview
+
+### SPL Token Scripts
 
 - **spl_init.ts**  
-  Creates a new SPL token mint on Solana Devnet using your wallet as the mint authority.  
+  Creates a new SPL token mint on Solana Devnet with your wallet as the mint authority.  
   - Uses `@solana/web3.js` and `@solana/spl-token`.
   - Prints the new mint address.
 
@@ -38,7 +66,7 @@ ts/
 - **spl_metadata.ts**  
   Creates a metadata account for an existing mint using Metaplex Token Metadata.  
   - Sets the name, symbol, and metadata URI (hosted on IPFS via Pinata).
-  - Uses the Pinata gateway to make the metadata accessible via HTTP.
+  - Uses the Pinata gateway for HTTP access to the metadata.
 
 ### NFT Scripts
 
@@ -66,29 +94,31 @@ ts/
   A decentralized storage uploader used to store images and metadata off-chain. The scripts use the Irys uploader to pin files and metadata, returning a permanent URI (e.g., `https://gateway.irys.xyz/...`).
 
 - **Pinata**:  
-  A pinning service for IPFS. When using Pinata, your metadata is uploaded to IPFS and pinned for reliability. The Pinata gateway (`https://gateway.pinata.cloud/ipfs/`) allows HTTP access to your IPFS-hosted metadata, which is required by wallets and dApps.
+  A pinning service for IPFS. When using Pinata, your metadata is uploaded to IPFS and pinned for reliability. The Pinata gateway (`https://gateway.pinata.cloud/ipfs/`) allows HTTP access to your IPFS files.
 
 ---
 
 ## How It Works
 
 ### 1. Wallet and UMI Setup
-- The script imports a wallet keypair from `turbin3-wallet.json`.
-- It creates a UMI connection to the Solana Devnet.
+- Scripts import a wallet keypair from `turbin3-wallet.json`.
+- A UMI connection is created to the Solana Devnet.
 - The keypair is used to sign transactions.
 
 ### 2. Mint Address
-- The script uses a hardcoded mint address for the NFT.
+- Scripts use a hardcoded mint address for the NFT, or generate a new one for SPL tokens.
 
 ### 3. Creating NFT Metadata
-- The script prepares the required accounts and metadata fields (name, symbol, URI, etc.).
-- It uses the `createMetadataAccountV3` function from the Metaplex Token Metadata library to create the metadata account on-chain.
-- The transaction is signed and sent to the network.
+- Scripts prepare the required accounts and metadata fields (name, symbol, URI, etc.).
+- Use `createMetadataAccountV3` from Metaplex Token Metadata to create the metadata account on-chain.
+- The transaction is signed and sent to Solana Devnet.
 
 ### 4. IPFS, Pinata, and Gateway
-- The `uri` field in the metadata points to an IPFS hash, which is a decentralized storage location for the NFT's metadata JSON.
+- The `uri` field in the NFT metadata points to an IPFS hash or Irys link, representing the decentralized storage location of the NFT's metadata JSON.
 - Pinata is used as a pinning service to ensure the metadata file stays available on IPFS.
-- The URI uses the Pinata gateway (`https://gateway.pinata.cloud/ipfs/`) to fetch the metadata via HTTP, making it accessible to wallets and dApps.
+- The HTTP gateway allows wallets and dApps to fetch metadata.
+
+---
 
 ## Architecture: How SPL Tokens and NFTs Are Minted
 
@@ -139,8 +169,6 @@ flowchart TD
 
 ---
 
-For more details, see the code comments and script explanations above.
-
 ## How to Use
 
 1. Ensure you have a valid Solana wallet keypair in `turbin3-wallet.json`.
@@ -153,48 +181,56 @@ For more details, see the code comments and script explanations above.
    ```
 3. Run the desired script using `yarn ts-node`:
 
-   - To create a new SPL token mint (prints mint address):
+   - Create a new SPL token mint (prints mint address):
      ```sh
      yarn ts-node cluster1/spl_init.ts
      ```
-   - To mint tokens to your wallet (prints associated token account and mint txid):
+   - Mint tokens to your wallet (prints associated token account and mint txid):
      ```sh
      yarn ts-node cluster1/spl_mint.ts
      ```
-   - To transfer SPL tokens (prints transaction signature):
+   - Transfer SPL tokens (prints transaction signature):
      ```sh
      yarn ts-node cluster1/spl_transfer.ts
      ```
-   - To upload an NFT image to Irys (prints image URI):
+   - Upload an NFT image to Irys (prints image URI):
      ```sh
      yarn ts-node cluster1/nft_image.ts
      ```
-   - To upload NFT metadata to Irys (prints metadata URI):
+   - Upload NFT metadata to Irys (prints metadata URI):
      ```sh
      yarn ts-node cluster1/nft_metadata.ts
      ```
-   - To mint a new NFT (prints transaction and mint address):
+   - Mint a new NFT (prints transaction and mint address):
      ```sh
      yarn ts-node cluster1/nft_mint.ts
      ```
-   - To create metadata for an existing mint (prints transaction signature):
+   - Create metadata for an existing mint (prints transaction signature):
      ```sh
      yarn ts-node cluster1/spl_metadata.ts
      ```
+
+---
 
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
+---
+
 ## Notes
 - The NFT metadata JSON must be uploaded to IPFS (e.g., using Pinata or Irys) and the resulting hash used in the `uri` field.
 - The Pinata gateway makes the IPFS content accessible via HTTP.
 - The Irys gateway (`https://gateway.irys.xyz/`) is used for files uploaded via Irys.
+- All scripts are designed for Solana Devnet (not mainnet) and are intended for educational and testing purposes.
 
+---
 
 ## References
+
 - [Solana SPL Token Program](https://spl.solana.com/token)
 - [Metaplex Token Metadata](https://docs.metaplex.com/programs/token-metadata/overview)
 - [Pinata IPFS Service](https://www.pinata.cloud/)
 - [Irys Decentralized Storage](https://irys.xyz/)
 - [UMI SDK](https://github.com/metaplex-foundation/umi)
+```

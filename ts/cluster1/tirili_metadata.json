@@ -1,0 +1,24 @@
+{
+  "name": "TiRiLi",
+  "symbol": "WIMM",
+  "description": "TiRiLi token - A unique digital asset on Solana",
+  "image": "https://gateway.pinata.cloud/ipfs/bafkreiepkntvtrgm7xdgtxrgntte7ximkcebgmy6qggrc63cmkz74uukuq",
+  "attributes": [
+    {
+      "trait_type": "Category",
+      "value": "Music"
+    },
+    {
+      "trait_type": "Platform",
+      "value": "Solana"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "type": "image/jpeg",
+        "uri": "https://gateway.pinata.cloud/ipfs/bafkreiepkntvtrgm7xdgtxrgntte7ximkcebgmy6qggrc63cmkz74uukuq"
+      }
+    ]
+  }
+} 

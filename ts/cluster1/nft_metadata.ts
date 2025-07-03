@@ -17,27 +17,27 @@ umi.use(signerIdentity(signer));
         // Follow this JSON structure
         // https://docs.metaplex.com/programs/token-metadata/changelog/v1.0#json-structure
 
-        // const image = ???
-        // const metadata = {
-        //     name: "?",
-        //     symbol: "?",
-        //     description: "?",
-        //     image: "?",
-        //     attributes: [
-        //         {trait_type: '?', value: '?'}
-        //     ],
-        //     properties: {
-        //         files: [
-        //             {
-        //                 type: "image/png",
-        //                 uri: "?"
-        //             },
-        //         ]
-        //     },
-        //     creators: []
-        // };
-        // const myUri = ???
-        // console.log("Your metadata URI: ", myUri);
+         const image = "https://gateway.irys.xyz/xDn7QnksAiBaQV92nYQsGzT3Be7XWdUtpRdrbk9RBgi"; //URL of the image created in nft_image
+         const metadata = {
+         name: "Rug Day Q3",
+         symbol: "RDQ3",
+         description: "Let's get rugged",
+         image,
+         attributes: [
+            {trait_type: 'rarity', value: 'legendary'}
+           ],
+        properties: {
+        files: [
+                {
+                       type: "image/png",
+                        uri: "image"
+                  },
+                ]
+            },
+             creators: []
+         };
+        const myUri = await umi.uploader.uploadJson(metadata);
+        console.log("Your metadata URI: ", myUri);
     }
     catch(error) {
         console.log("Oops.. Something went wrong", error);

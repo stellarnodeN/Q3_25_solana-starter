@@ -16,11 +16,17 @@ umi.use(mplTokenMetadata())
 const mint = generateSigner(umi);
 
 (async () => {
-    // let tx = ???
-    // let result = await tx.sendAndConfirm(umi);
-    // const signature = base58.encode(result.signature);
+     let tx = await createNft(umi, {
+        mint,
+        name: "Rug Day Q3",
+        symbol: "RDQ3",
+        uri: "https://gateway.irys.xyz/E1k7BmqGbkW2s5G2d9bLtx47dyj33jyLN8hfu3J1Vh1x",
+        sellerFeeBasisPoints: percentAmount(5),
+        });
+    let result = await tx.sendAndConfirm(umi);
+    const signature = base58.encode(result.signature);
     
-    // console.log(`Succesfully Minted! Check out your TX here:\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`)
+    console.log(`Succesfully Minted! Check out your TX here:\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`)
 
     console.log("Mint Address: ", mint.publicKey);
 })();

@@ -13,7 +13,7 @@ import {
   BN,
 } from "@coral-xyz/anchor";
 import { WbaVault, IDL } from "./programs/wba_vault";
-import wallet from "./wallet/turbin3-wallet.json";
+import wallet from "../turbin3-wallet.json";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
@@ -41,9 +41,11 @@ const program = new Program<WbaVault>(IDL, "<address>" as Address, provider);
 const vaultState = new PublicKey("<address>");
 
 // Create the PDA for our enrollment account
+// Seeds are "auth", vaultState
 // const vaultAuth = ???
 
 // Create the vault key
+// Seeds are "vault", vaultAuth
 // const vault = ???
 
 // Mint address
@@ -69,13 +71,12 @@ const mint = new PublicKey("<address>");
       metadataProgram,
     )[0];
 
-    // b"metadata", MetadataProgramID.key.as_ref(), mint.key.as_ref() "master"
     // Get the token account of the fromWallet address, and if it does not exist, create it
     // const ownerAta = await getOrCreateAssociatedTokenAccount(
     //     ???
     // );
 
-    // // Get the token account of the fromWallet address, and if it does not exist, create it
+    // Get the token account of the fromWallet address, and if it does not exist, create it
     // const vaultAta = await getOrCreateAssociatedTokenAccount(
     //     ???
     // );

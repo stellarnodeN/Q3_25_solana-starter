@@ -120,55 +120,6 @@ ts/
 
 ---
 
-## Architecture: How SPL Tokens and NFTs Are Minted
-
-Below are simplified diagrams and explanations for the minting process of SPL tokens and NFTs in this project.
-
-### SPL Token Minting Flow
-
-```mermaid
-flowchart TD
-    A[Start: Wallet Keypair] --> B[Connect to Solana Devnet]
-    B --> C[Create Mint (spl_init.ts)]
-    C --> D[Get/Create Associated Token Account (spl_mint.ts)]
-    D --> E[Mint Tokens to Account]
-    E --> F[Transfer Tokens (spl_transfer.ts)]
-```
-
-- **spl_init.ts**: Creates a new token mint.
-- **spl_mint.ts**: Mints tokens to your wallet's associated token account.
-- **spl_transfer.ts**: Transfers tokens to another wallet.
-
-### NFT Minting Flow
-
-```mermaid
-flowchart TD
-    A1[Start: Wallet Keypair] --> B1[Connect to Solana Devnet]
-    B1 --> C1[Upload Image (nft_image.ts)]
-    C1 --> D1[Get Image URI]
-    D1 --> E1[Create Metadata JSON (nft_metadata.ts)]
-    E1 --> F1[Upload Metadata JSON]
-    F1 --> G1[Get Metadata URI]
-    G1 --> H1[Mint NFT (nft_mint.ts)]
-    H1 --> I1[NFT Created on Solana]
-```
-
-- **nft_image.ts**: Uploads the NFT image to decentralized storage (Irys).
-- **nft_metadata.ts**: Uploads the NFT metadata JSON referencing the image URI.
-- **nft_mint.ts**: Mints the NFT using the metadata URI.
-
-### Metadata Account Creation (Metaplex)
-
-```mermaid
-flowchart TD
-    X[Existing Mint Address] --> Y[Create Metadata Account (spl_metadata.ts)]
-    Y --> Z[Metadata on Solana (Metaplex)]
-```
-
-- **spl_metadata.ts**: Creates a metadata account for an existing mint using Metaplex Token Metadata.
-
----
-
 ## How to Use
 
 1. Ensure you have a valid Solana wallet keypair in `turbin3-wallet.json`.

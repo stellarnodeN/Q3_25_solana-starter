@@ -1,4 +1,4 @@
-# Solana SPL & NFT Metadata Example
+# Q3_25_solana-starter
 
 This project demonstrates how to create and manage Solana SPL tokens and NFT metadata using the Metaplex Token Metadata program and the UMI SDK. The code is written in TypeScript and interacts with the Solana Devnet.
 

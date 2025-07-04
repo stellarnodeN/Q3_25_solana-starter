@@ -41,6 +41,13 @@ ts/
     nft_mint.ts        # Mint a new NFT using uploaded metadata
     ...
 ```
+## Prerequisites
+
+- Node.js (v18 or higher)
+- Yarn or npm
+- Solana CLI tools
+- A Solana wallet (or generate one using the included tools)
+- Devnet SOL (use the airdrop tool included)
 
 ---
 
@@ -82,7 +89,7 @@ ts/
 
 - **nft_mint.ts**  
   Mints a new NFT using the uploaded metadata.  
-  - Uses Metaplex’s `createNft` function.
+  - Uses Metaplex's `createNft` function.
   - Sets the metadata URI, name, symbol, and royalty.
   - Prints the transaction and mint address.
 
@@ -169,6 +176,139 @@ flowchart TD
 
 ---
 
+## Visual Diagrams
+
+### SPL Token Structure
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SPL Token Ecosystem                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   Mint      │    │   Token     │    │   Wallet    │     │
+│  │  Account    │◄──►│   Account   │◄──►│   Owner     │     │
+│  │             │    │             │    │             │     │
+│  │ • Authority │    │ • Balance   │    │ • Keypair   │     │
+│  │ • Supply    │    │ • Mint      │    │ • Address   │     │
+│  │ • Decimals  │    │ • Owner     │    │ • SOL       │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         │                   │                   │           │
+│         ▼                   ▼                   ▼           │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   spl_init  │    │   spl_mint  │    │ spl_transfer│     │
+│  │   Creates   │    │   Mints     │    │   Moves     │     │
+│  │   new mint  │    │   tokens    │    │   tokens    │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### NFT Structure
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      NFT Ecosystem                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   NFT Mint  │    │  Metadata   │    │   Image     │     │
+│  │  Account    │◄──►│   Account   │◄──►│   Storage   │     │
+│  │             │    │             │    │             │     │
+│  │ • Authority │    │ • Name      │    │ • Irys      │     │
+│  │ • Supply=1  │    │ • Symbol    │    │ • IPFS      │     │
+│  │ • Metadata  │    │ • URI       │    │ • Gateway   │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         │                   │                   │           │
+│         ▼                   ▼                   ▼           │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │  nft_mint   │    │nft_metadata │    │  nft_image  │     │
+│  │   Creates   │    │   Uploads   │    │   Uploads   │     │
+│  │   NFT       │    │   metadata  │    │   image     │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Token vs NFT Comparison
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                SPL Token vs NFT Comparison                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────────┐              ┌─────────────────┐      │
+│  │   SPL Token     │              │      NFT        │      │
+│  ├─────────────────┤              ├─────────────────┤      │
+│  │ • Fungible      │              │ • Non-fungible  │      │
+│  │ • Divisible     │              │ • Indivisible   │      │
+│  │ • Supply > 1    │              │ • Supply = 1    │      │
+│  │ • Same value    │              │ • Unique value  │      │
+│  │ • No metadata   │              │ • Rich metadata │      │
+│  │ • Simple        │              │ • Complex       │      │
+│  └─────────────────┘              └─────────────────┘      │
+│                                                             │
+│  ┌─────────────────┐              ┌─────────────────┐      │
+│  │   Use Cases     │              │   Use Cases     │      │
+│  ├─────────────────┤              ├─────────────────┤      │
+│  │ • Currency      │              │ • Art           │      │
+│  │ • Rewards       │              │ • Collectibles  │      │
+│  │ • Governance    │              │ • Gaming        │      │
+│  │ • Utility       │              │ • Identity      │      │
+│  └─────────────────┘              └─────────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Storage Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Storage Architecture                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   On-Chain  │    │   Off-Chain │    │   Gateway   │     │
+│  │             │    │             │    │             │     │
+│  │ • Mint Data │    │ • Images    │    │ • HTTP      │     │
+│  │ • Metadata  │    │ • Metadata  │    │ • Access    │     │
+│  │ • Accounts  │    │ • JSON      │    │ • Caching   │     │
+│  │ • Balances  │    │ • Files     │    │ • CDN       │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         │                   │                   │           │
+│         ▼                   ▼                   ▼           │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   Solana    │    │   Irys      │    │   Pinata    │     │
+│  │   Blockchain│    │   IPFS      │    │   Gateway   │     │
+│  │   Storage   │    │   Storage   │    │   Service   │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Transaction Flow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Transaction Flow                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   Wallet    │    │   Client    │    │   Solana    │     │
+│  │             │    │             │    │   Network   │     │
+│  │ • Keypair   │───►│ • Script    │───►│ • Validator │     │
+│  │ • Sign      │    │ • Build     │    │ • Process   │     │
+│  │ • Address   │    │ • Send      │    │ • Confirm   │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         ▲                   ▲                   │           │
+│         │                   │                   ▼           │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   Result    │◄───│   Response  │◄───│   Block     │     │
+│  │ • Success   │    │ • Signature │    │ • Confirmed │     │
+│  │ • Error     │    │ • Status    │    │ • Finalized │     │
+│  │ • Balance   │    │ • Details   │    │ • Immutable │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## How to Use
 
 1. Ensure you have a valid Solana wallet keypair in `turbin3-wallet.json`.
@@ -233,4 +373,6 @@ This project is licensed under the MIT License. See the LICENSE file for details
 - [Pinata IPFS Service](https://www.pinata.cloud/)
 - [Irys Decentralized Storage](https://irys.xyz/)
 - [UMI SDK](https://github.com/metaplex-foundation/umi)
+
+
 ```

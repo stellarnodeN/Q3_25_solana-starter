@@ -4,7 +4,7 @@ import { createGenericFile, createSignerFromKeypair, signerIdentity } from "@met
 import { irysUploader } from "@metaplex-foundation/umi-uploader-irys"
 
 // Create a devnet connection
-const umi = createUmi('https://api.devnet.solana.com');
+const umi = createUmi('https://devnet.helius-rpc.com/?api-key=71d05d9f-5d94-4548-9137-c6c3d9f69b3e');
 
 let keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
 const signer = createSignerFromKeypair(umi, keypair);
@@ -17,11 +17,11 @@ umi.use(signerIdentity(signer));
         // Follow this JSON structure
         // https://docs.metaplex.com/programs/token-metadata/changelog/v1.0#json-structure
 
-         const image = "https://gateway.irys.xyz/xDn7QnksAiBaQV92nYQsGzT3Be7XWdUtpRdrbk9RBgi"; //URL of the image created in nft_image
+         const image = "https://gateway.irys.xyz/6xGZZfy8oKgj2JzD8udUTxoj94Wi265ho1GR2vKpPEfT"; //URL of the image created in nft_image
          const metadata = {
-         name: "Rug Day Q3",
-         symbol: "RDQ3",
-         description: "Let's get rugged",
+         name: "Andre's cat",
+         symbol: "ANDRE",
+         description: "Legendary Andre's cat",
          image,
          attributes: [
             {trait_type: 'rarity', value: 'legendary'}

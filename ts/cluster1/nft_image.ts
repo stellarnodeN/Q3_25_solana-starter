@@ -4,8 +4,8 @@ import { createGenericFile, createSignerFromKeypair, signerIdentity } from "@met
 import { irysUploader } from "@metaplex-foundation/umi-uploader-irys"
 import { readFile } from "fs/promises"
 
-// Create a devnet connection
-const umi = createUmi('https://api.devnet.solana.com');
+// Create a devnet connection using GenesysGo RPC endpoint
+const umi = createUmi('https://ssc-dao.genesysgo.net');
 
 let keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
 const signer = createSignerFromKeypair(umi, keypair);
@@ -19,9 +19,9 @@ umi.use(signerIdentity(signer));
         //2. Convert image to generic file.
         //3. Upload image
 
-        const image = await readFile("cluster1/generug.png");
+        const image = await readFile("cluster1/andre.png");
 
-        const file = createGenericFile(image, "generug.png",{
+        const file = createGenericFile(image, "andre.png",{
             contentType: "image/png"
         });
 
